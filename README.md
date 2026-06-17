@@ -88,16 +88,25 @@ Activate the virtual environment, install dependencies, and run the backend serv
 ```bash
 cd backend
 python -m venv venv3.11
+
+# Activate the virtual environment:
+# On Windows (PowerShell):
+.\venv3.11\Scripts\Activate.ps1
+# On macOS / Linux (bash):
 source venv3.11/bin/activate
-pip install --upgrade pip
+
+# Upgrade pip and install all dependencies:
+python -m pip install --upgrade pip
 pip install -r requirements.txt
-# for Apple Silicon Chips 
-pip install llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/metal
-# for normal CPU processors
-pip install llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
-uvicorn api:app --reload --host 0.0.0.0 --port 9000
+
+# (Optional) For Apple Silicon macOS with GPU acceleration:
+# pip install llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/metal --force-reinstall
+
+# Run the backend server directly:
+python api.py
 ```
 *The FastAPI backend will run at `http://localhost:9000`.*
+
 
 **2. Frontend Setup (React + Vite)**
 Open a **second terminal window**, install dependencies, and spin up the Vite development server:
