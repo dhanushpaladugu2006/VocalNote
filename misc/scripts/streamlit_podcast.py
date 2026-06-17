@@ -583,13 +583,39 @@ consider this as an example of the format you should use but do not copy the con
             raise
 
         if isinstance(PODCAST_TEXT, str):
+            PODCAST_TEXT = re.sub(r"^```(?:python)?\s*", "", PODCAST_TEXT, flags=re.IGNORECASE)
+            PODCAST_TEXT = re.sub(r"\s*```$", "", PODCAST_TEXT, flags=re.IGNORECASE)
+            PODCAST_TEXT = PODCAST_TEXT.strip()
+
             try:
-                ast_tokens = ASTTokens(PODCAST_TEXT, parse=True)
-                PODCAST_TEXT = eval(PODCAST_TEXT, {}, {})
+                import ast
+                PODCAST_TEXT = ast.literal_eval(PODCAST_TEXT)
                 logger.info("Parsed PODCAST_TEXT as list")
             except (ValueError, SyntaxError) as e:
-                logger.error(f"Failed to parse PODCAST_TEXT: {str(e)}")
-                raise
+                logger.warning(f"Failed to parse PODCAST_TEXT: {str(e)}. Attempting to repair truncated python list structure...")
+                lines = PODCAST_TEXT.splitlines()
+                parsed = None
+                while lines:
+                    candidate = "\n".join(lines)
+                    candidate_stripped = candidate.strip()
+                    if not candidate_stripped.endswith("]"):
+                        candidate = candidate.rstrip()
+                        if candidate.endswith(","):
+                            candidate += "\n]"
+                        else:
+                            candidate += ",\n]"
+                    try:
+                        parsed = ast.literal_eval(candidate)
+                        break
+                    except Exception:
+                        lines.pop()
+
+                if parsed is not None:
+                    PODCAST_TEXT = parsed
+                    logger.info(f"Successfully repaired and parsed transcript. Got {len(PODCAST_TEXT)} turns.")
+                else:
+                    logger.error(f"Failed to parse PODCAST_TEXT: {str(e)}")
+                    raise
 
         if not isinstance(PODCAST_TEXT, list):
             raise ValueError("PODCAST_TEXT must be a list of tuples")

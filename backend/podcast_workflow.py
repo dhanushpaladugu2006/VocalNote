@@ -542,11 +542,40 @@ Example of response format:
             PODCAST_TEXT = pickle.load(f)
 
         if isinstance(PODCAST_TEXT, str):
+            # Clean markdown code fences if present
+            PODCAST_TEXT = re.sub(r"^```(?:python)?\s*", "", PODCAST_TEXT, flags=re.IGNORECASE)
+            PODCAST_TEXT = re.sub(r"\s*```$", "", PODCAST_TEXT, flags=re.IGNORECASE)
+            PODCAST_TEXT = PODCAST_TEXT.strip()
+
+            import ast
             try:
-                import ast
                 PODCAST_TEXT = ast.literal_eval(PODCAST_TEXT)
             except Exception as e:
-                raise ValueError(f"Failed to parse PODCAST_TEXT string as list of tuples using ast.literal_eval: {e}")
+                logger.warning(f"Initial ast.literal_eval failed: {e}. Attempting to repair truncated python list structure...")
+                # Attempt to repair by progressively discarding lines from the end until it parses as a valid python list.
+                lines = PODCAST_TEXT.splitlines()
+                parsed = None
+                while lines:
+                    candidate = "\n".join(lines)
+                    # Force a closing list bracket
+                    candidate_stripped = candidate.strip()
+                    if not candidate_stripped.endswith("]"):
+                        candidate = candidate.rstrip()
+                        if candidate.endswith(","):
+                            candidate += "\n]"
+                        else:
+                            candidate += ",\n]"
+                    try:
+                        parsed = ast.literal_eval(candidate)
+                        break
+                    except Exception:
+                        lines.pop()
+
+                if parsed is not None:
+                    PODCAST_TEXT = parsed
+                    logger.info(f"Successfully repaired and parsed transcript. Got {len(PODCAST_TEXT)} turns.")
+                else:
+                    raise ValueError(f"Failed to parse PODCAST_TEXT string as list of tuples using ast.literal_eval (even after repair attempt): {e}")
 
         if not isinstance(PODCAST_TEXT, list):
             raise ValueError("PODCAST_TEXT must be a list of tuples after parsing")
