@@ -46,7 +46,7 @@ graph TD
     end
 
     subgraph Scenario 2: End-User Setup
-        E[No Git Clone needed!] --> F[Run: docker run prathammk01/vocalnote]
+        E[No Git Clone needed!] --> F[Run: docker run dhanushpaladugu2006/vocalnote]
         F --> G[Docker pulls pre-built image from Docker Hub]
         G --> H[App starts instantly. Code is hidden inside image.]
     end
@@ -104,7 +104,7 @@ async def serve_frontend():
 ```
 
 > [!TIP]
-> **The Result:** The user only has to pull one image and run one command (`docker run prathammk01/vocalnote`). They open port `9000` in their browser, and FastAPI serves them the React interface!
+> **The Result:** The user only has to pull one image and run one command (`docker run dhanushpaladugu2006/vocalnote`). They open port `9000` in their browser, and FastAPI serves them the React interface!
 
 ---
 
@@ -134,6 +134,6 @@ By default, `docker build` compiles an image *only* for the host machine's archi
 ### The Fix: Docker Buildx
 We can use Docker's powerful `buildx` tool to build for multiple architectures simultaneously:
 ```bash
-docker buildx build --platform linux/amd64,linux/arm64 -t prathammk01/vocalnote --push .
+docker buildx build --platform linux/amd64,linux/arm64 -t dhanushpaladugu2006/vocalnote --push .
 ```
 This runs two parallel builds (Mac will emulate the Intel processor for the `amd64` build) and pushes them under the exact same tag. When a user runs `docker pull`, Docker Hub automatically detects their OS and sends them the correct version!

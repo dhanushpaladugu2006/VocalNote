@@ -30,7 +30,7 @@ The backend pipeline (located in backend/podcast_workflow.py) has been significa
 *   **Optimal Character Chunking:** PDF documents are preprocessed and cleaned in parallelizable, 3000-character chunks to fit local LLM context limits and maintain high token generation throughput.
 
 ### Culturally Authentic Indian Design System
-The frontend (located in the [frontend/](file:///Users/prathamkairamkonda/Developer/Projects/NoteBookQwen-CPU/frontend) directory) features an elegant, warm, and responsive interface inspired by modern Indian art and aesthetics:
+The frontend (located in the [frontend/](./frontend) directory) features an elegant, warm, and responsive interface inspired by modern Indian art and aesthetics:
 *   **Color Palette:** Curated using natural, warm tones including Saffron (`#FF9933`), Turmeric (`#D4A843`), Terracotta (`#C2703E`), Jaipur Tile Blue, and deep Charcoal backgrounds.
 *   **Typography:** Merges modern visual flair (Outfit and Noto Sans) with classical Devanagari script accents (Tiro Devanagari Hindi) for section titles.
 *   **Visual Motifs:** Subtle background overlays of Jaipur blue pottery, Mughal arch-styled feature cards, and slow-rotating mandala loading indicators.
@@ -57,7 +57,7 @@ The frontend (located in the [frontend/](file:///Users/prathamkairamkonda/Develo
 
 First, clone the repository to your local machine:
 ```bash
-git clone https://github.com/prathamm-k/VocalNote.git
+git clone https://github.com/dhanushpaladugu2006/VocalNote.git
 cd VocalNote
 ```
 
@@ -126,13 +126,13 @@ If you just want to run the application without downloading any source code or b
 
 **For Windows Users:**
 ```bash
-docker run -p 9000:9000 -v C:\Users\<Your Windows Username>\Downloads\VocalNote_models:/app/models prathammk01/vocalnote
+docker run -p 9000:9000 -v C:\Users\<Your Windows Username>\Downloads\VocalNote_models:/app/models dhanushpaladugu2006/vocalnote
 ```
 *(Make sure to change `<Your Windows Username>` to your actual Windows username)*
 
 **For Mac / Linux Users:**
 ```bash
-docker run -p 9000:9000 -v ~/Downloads/VocalNote_models:/app/models prathammk01/vocalnote
+docker run -p 9000:9000 -v ~/Downloads/VocalNote_models:/app/models dhanushpaladugu2006/vocalnote
 ```
 
 3. Docker will download the image, save the massive AI models directly to your Downloads folder, and start the server.
@@ -201,7 +201,7 @@ Licensed under the [MIT License](LICENSE).
 ---
 
 ## Repository
-GitHub: [prathamm-k/VocalNote](https://github.com/prathamm-k/VocalNote)
+GitHub: [dhanushpaladugu2006/VocalNote](https://github.com/dhanushpaladugu2006/VocalNote)
 
 ## Contact
-Created by [prathamm-k](https://github.com/prathamm-k) — feel free to reach out via GitHub.
+Created by [dhanushpaladugu2006](https://github.com/dhanushpaladugu2006) — feel free to reach out via GitHub.
