@@ -8,3 +8,13 @@ misc./docs
 .DS_Store
 AGENTS.md
 skills-lock.json
+
+# Local environments and dependencies
+.venv
+.venv-local
+.venv-run
+venv
+venv3.11
+node_modules
+dist
+.vite
