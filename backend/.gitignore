@@ -1,5 +1,7 @@
 venv
 venv3.11
+.venv-local
+.venv-run
 models
 resources
 __pycache__
